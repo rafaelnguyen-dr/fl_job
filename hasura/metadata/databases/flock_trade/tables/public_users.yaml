@@ -1,0 +1,74 @@
+table:
+  name: users
+  schema: public
+array_relationships:
+- name: user_exchange_keys
+  using:
+    foreign_key_constraint_on:
+      column: user_id
+      table:
+        name: user_exchange_keys
+        schema: public
+- name: user_notifies
+  using:
+    foreign_key_constraint_on:
+      column: user_id
+      table:
+        name: user_notifies
+        schema: public
+- name: user_orders
+  using:
+    foreign_key_constraint_on:
+      column: user_id
+      table:
+        name: user_orders
+        schema: public
+insert_permissions:
+- permission:
+    backend_only: false
+    check:
+      id:
+        _eq: X-Hasura-User-Id
+    columns:
+    - id
+    - first_name
+    - last_name
+    - created_at
+    - updated_at
+    - deleted_at
+  role: user
+select_permissions:
+- permission:
+    columns:
+    - id
+    - first_name
+    - last_name
+    - created_at
+    - updated_at
+    - deleted_at
+    filter:
+      id:
+        _eq: X-Hasura-User-Id
+  role: user
+update_permissions:
+- permission:
+    check:
+      id:
+        _eq: X-Hasura-User-Id
+    columns:
+    - id
+    - first_name
+    - last_name
+    - created_at
+    - updated_at
+    - deleted_at
+    filter:
+      id:
+        _eq: X-Hasura-User-Id
+  role: user
+delete_permissions:
+- permission:
+    filter:
+      id:
+        _eq: X-Hasura-User-Id
+  role: user
